@@ -1,0 +1,157 @@
+// Final Project.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include "pch.h"
+#include <iostream>
+#include <SFML/Graphics.hpp>
+#include "Final Project.h"
+using namespace std;
+using namespace sf;
+
+int main()
+{
+	RenderWindow window(sf::VideoMode(800, 600), "Fighting Game");
+	enum gameState { title, play, controls, howToPlay, charSelect1, charSelect2 };
+	static gameState state = title;
+	//Buttons
+	RectangleShape startButton;
+	RectangleShape controlsButton;
+	RectangleShape howToPlayButton;
+	RectangleShape backButton;
+	//Text and Font
+	Text gameNameText;
+	Text startText;
+	Text controlsText;
+	Text howToPlayText;
+	Text backText;
+	Font Candal;
+	Candal.loadFromFile("Font/Candal/Candal.ttf");
+	//Name of game text
+	gameNameText.setFont(Candal);
+	gameNameText.setString("Game Name");
+	gameNameText.setCharacterSize(50);
+	gameNameText.setFillColor(Color::White);
+	gameNameText.setPosition(220, 100);
+	//Start text
+	startText.setFont(Candal);
+	startText.setString("Start Game");
+	startText.setCharacterSize(24);
+	startText.setFillColor(Color::White);
+	startText.setPosition(320, 220);
+	//Controls text
+	controlsText.setFont(Candal);
+	controlsText.setString("Controls");
+	controlsText.setCharacterSize(24);
+	controlsText.setFillColor(Color::White);
+	controlsText.setPosition(340, 320);
+	//How to play text
+	howToPlayText.setFont(Candal);
+	howToPlayText.setString("How to Play");
+	howToPlayText.setCharacterSize(24);
+	howToPlayText.setFillColor(Color::White);
+	howToPlayText.setPosition(320, 420);
+	//Back text
+	backText.setFont(Candal);
+	backText.setString("Back");
+	backText.setCharacterSize(24);
+	backText.setFillColor(Color::White);
+	backText.setPosition(320, 420);
+	//Start button
+	startButton.setSize(Vector2f(window.getSize().x/4, window.getSize().y/8));
+	startButton.setPosition(300, 200);
+	startButton.setFillColor(Color::Blue);
+	//Controls button
+	controlsButton.setSize({ 200.f, 75.f });
+	controlsButton.setPosition(300, 300);
+	controlsButton.setFillColor(Color::Blue);
+	//How to play button
+	howToPlayButton.setSize({ 200.f, 75.f });
+	howToPlayButton.setPosition(300, 400);
+	howToPlayButton.setFillColor(Color::Blue);
+	//Back button
+	backButton.setSize({ 100.f, 75.f });
+	backButton.setPosition(600, 400);
+	backButton.setFillColor(Color::Blue);
+
+
+	Vector2i mousePosition = Mouse::getPosition(window);
+
+
+
+	while (window.isOpen())
+	{
+		mousePosition = Mouse::getPosition(window);
+		Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+				window.close();
+
+		}
+	
+		switch (state) {
+		case title:
+			window.clear();
+			window.draw(startButton);
+			window.draw(controlsButton);
+			window.draw(howToPlayButton);
+			window.draw(startText);
+			window.draw(controlsText);
+			window.draw(howToPlayText);
+			window.draw(gameNameText);
+			window.display();
+			if (Mouse::isButtonPressed(Mouse::Left)) {
+				if (mousePosition.x > window.getSize().x / 2.666 && mousePosition.x < window.getSize().x / 4 && mousePosition.y > 200 && mousePosition.y < 275) {
+					state = charSelect1;
+				}
+				else if (mousePosition.x > 300 && mousePosition.x < 500 && mousePosition.y > 300 && mousePosition.y < 375) {
+					state = controls;
+				}
+				else if (mousePosition.x > 300 && mousePosition.x < 500 && mousePosition.y > 400 && mousePosition.y < 475) {
+					state = howToPlay;
+				}
+			}
+			break;
+		case play:
+			window.clear();
+			window.display();
+			break;
+		case controls:
+			window.clear();
+			window.draw(backButton);
+			window.draw(backText);
+			window.display();
+			if (Mouse::isButtonPressed(Mouse::Left)) {
+				if (mousePosition.x > 600 && mousePosition.x < 700 && mousePosition.y > 400 && mousePosition.y < 475) {
+					state = title;
+				}
+				break;
+		case howToPlay:
+			window.clear();
+			window.display();
+			break;
+		case charSelect1:
+			window.clear();
+
+			window.display();
+			break;
+		case charSelect2:
+			window.clear();
+			window.display();
+			break;
+
+			}
+		}
+		
+	}
+}
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
